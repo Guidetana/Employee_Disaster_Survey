@@ -42,6 +42,21 @@ DASHBOARD_PASSWORD=ตั้งรหัสผ่าน npm start
 
 ตัวเลือกของแต่ละคำถามอยู่ใน `public/options.js` ที่เดียว ใช้ร่วมกันทั้งแบบฟอร์ม Dashboard และการตรวจสอบฝั่งเซิร์ฟเวอร์
 
-## หมายเหตุการ deploy
+## การนำขึ้นเซิร์ฟเวอร์ (deploy)
 
-ข้อมูลเก็บเป็นไฟล์ JSON บนเครื่องเซิร์ฟเวอร์ จึงต้อง deploy บนเครื่อง/บริการที่มี disk ถาวร (เช่น VM, Render/Railway พร้อม persistent volume) และรันเพียง 1 instance
+ข้อมูลเก็บเป็นไฟล์ JSON จึงต้องใช้บริการที่มี **disk ถาวร** และรันเพียง 1 instance
+
+**Render (แนะนำ ง่ายที่สุด)** — ใช้ไฟล์ `render.yaml` ที่เตรียมไว้
+1. สมัคร/เข้าสู่ระบบ https://dashboard.render.com แล้วเชื่อมต่อ GitHub
+2. กด **New → Blueprint** แล้วเลือก repo นี้และ branch ที่ต้องการ
+3. กด Apply — Render จะสร้างเว็บพร้อม disk 1 GB (แผน Starter) และสุ่ม `DASHBOARD_PASSWORD` ให้ ดูได้ที่แท็บ Environment
+
+**Railway / Fly.io / VM ใดก็ได้** — ใช้ `Dockerfile`
+- mount volume ถาวรไว้ที่ `/data`
+- ตั้งค่า `DASHBOARD_PASSWORD`
+- health check: `GET /healthz`
+
+```bash
+docker build -t flood-survey .
+docker run -d -p 80:3000 -v flood-data:/data -e DASHBOARD_PASSWORD=ตั้งรหัสผ่าน --restart unless-stopped flood-survey
+```

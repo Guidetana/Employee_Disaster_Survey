@@ -217,6 +217,10 @@ async function handle(req, res) {
     return sendJson(res, 200, { ok: true, updated });
   }
 
+  if (req.method === 'GET' && p === '/healthz') {
+    return sendJson(res, 200, { ok: true });
+  }
+
   if (req.method === 'GET' && p === '/api/options') {
     return sendJson(res, 200, OPTIONS);
   }

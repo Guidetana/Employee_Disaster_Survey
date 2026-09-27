@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: flood-survey
+    runtime: node
+    plan: starter            # ต้องเป็นแผนเสียเงินจึงจะมี disk ถาวร (ข้อมูลไม่หายเมื่อรีสตาร์ท)
+    region: singapore
+    buildCommand: "true"
+    startCommand: node server.js
+    healthCheckPath: /healthz
+    envVars:
+      - key: DATA_DIR
+        value: /var/data
+      - key: DASHBOARD_USER
+        value: admin
+      - key: DASHBOARD_PASSWORD
+        generateValue: true  # Render สุ่มรหัสผ่านให้ ดู/แก้ได้ที่หน้า Environment
+    disk:
+      name: survey-data
+      mountPath: /var/data
+      sizeGB: 1
