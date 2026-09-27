@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard ผลกระทบน้ำท่วม</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="inner">
+      <div class="brand">🌊 แบบสำรวจพนักงานที่ได้รับผลกระทบจากน้ำท่วม</div>
+      <nav class="nav"><a href="/">กรอกข้อมูล</a><a href="/dashboard" class="active">Dashboard</a></nav>
+    </div>
+  </header>
+
+  <main class="dash">
+    <div class="dash-head">
+      <div>
+        <h1>Dashboard สถานการณ์พนักงาน</h1>
+        <span class="live" id="live"><span class="dot"></span><span id="liveText">กำลังเชื่อมต่อ...</span></span>
+      </div>
+      <a class="btn secondary small" href="/api/export.csv">⬇ ดาวน์โหลด CSV (ทั้งหมด)</a>
+    </div>
+
+    <section class="kpis" id="kpis"></section>
+
+    <section class="card filters">
+      <div class="row">
+        <div><label for="q">ค้นหา (ชื่อ / บริเวณที่พัก / เบอร์โทร / หมายเหตุ)</label><input type="text" id="q" placeholder="พิมพ์เพื่อค้นหา"></div>
+        <div><label for="f-housingType">ลักษณะที่อยู่อาศัย</label><select id="f-housingType" data-filter="housingType"></select></div>
+        <div><label for="f-canSleep">ที่พักใช้นอนได้</label><select id="f-canSleep" data-filter="canSleep"></select></div>
+        <div><label for="f-foodBucket">อาหารเพียงพอ</label><select id="f-foodBucket" data-filter="foodBucket"></select></div>
+        <div><label for="f-waterLevel">ระดับน้ำปัจจุบัน</label><select id="f-waterLevel" data-filter="waterLevel"></select></div>
+        <div><label for="f-commute">การเดินทางมาทำงาน</label><select id="f-commute" data-filter="commute"></select></div>
+        <div><label for="f-helpLevel">ความต้องการความช่วยเหลือ</label><select id="f-helpLevel" data-filter="helpLevel"></select></div>
+      </div>
+      <div class="actions">
+        <span class="count" id="count"></span>
+        <button class="btn secondary small" type="button" id="clearBtn">ล้างตัวกรองทั้งหมด</button>
+      </div>
+    </section>
+
+    <section class="charts" id="charts"></section>
+
+    <section class="card table-card">
+      <div class="table-head">
+        <h3>รายชื่อพนักงาน</h3>
+        <span class="count" id="tableCount"></span>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr id="thead"></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="options.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>

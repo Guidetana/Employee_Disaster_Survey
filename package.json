@@ -1,0 +1,13 @@
+{
+  "name": "employee-disaster-survey",
+  "version": "1.0.0",
+  "description": "แบบสำรวจและ Dashboard แบบ real-time สำหรับพนักงานที่ได้รับผลกระทบจากน้ำท่วม",
+  "main": "server.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>แบบสำรวจผลกระทบน้ำท่วม</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="inner">
+      <div class="brand">🌊 แบบสำรวจพนักงานที่ได้รับผลกระทบจากน้ำท่วม</div>
+      <nav class="nav"><a href="/" class="active">กรอกข้อมูล</a><a href="/dashboard">Dashboard</a></nav>
+    </div>
+  </header>
+
+  <main class="form-wrap">
+    <div class="card">
+      <div id="formView">
+        <div class="form-head">
+          <h1>แจ้งสถานการณ์และความต้องการความช่วยเหลือ</h1>
+          <p>ข้อมูลนี้จะใช้เพื่อประสานงานช่วยเหลือพนักงานเท่านั้น หากสถานการณ์เปลี่ยนแปลง สามารถกรอกใหม่ด้วยเบอร์โทรเดิมเพื่ออัปเดตข้อมูลได้</p>
+        </div>
+
+        <form id="surveyForm" novalidate>
+          <div class="field" data-field="fullName">
+            <label for="fullName">ชื่อ-นามสกุล <span class="req">*</span></label>
+            <input type="text" id="fullName" name="fullName" autocomplete="name" maxlength="150" required>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="housingType">
+            <div class="label">ลักษณะที่อยู่อาศัย <span class="req">*</span></div>
+            <div class="choices" data-options="housingType"></div>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field hidden" data-field="floor" id="floorField">
+            <label for="floor">อยู่ชั้นที่ <span class="req">*</span> <span class="hint">(หอพัก / คอนโด / แฟลต)</span></label>
+            <div class="with-unit">
+              <input type="number" id="floor" name="floor" inputmode="numeric" min="1" max="200" step="1">
+              <span>ชั้น</span>
+            </div>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="location">
+            <label for="location">บริเวณของที่พักอาศัย <span class="req">*</span></label>
+            <textarea id="location" name="location" maxlength="500" placeholder="เช่น ซอยร่มเกล้า 38 ใกล้ตลาดกลางร่มเกล้า"></textarea>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="canSleep">
+            <div class="label">ที่พักปัจจุบัน สามารถใช้นอนได้หรือไม่ <span class="req">*</span></div>
+            <div class="choices inline" data-options="canSleep"></div>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="foodDays">
+            <label for="foodDays">มีอาหารเพียงพอสำหรับกี่วัน <span class="req">*</span> <span class="hint">(ระบุเฉพาะตัวเลข ถ้าไม่มีเลยให้ใส่ 0)</span></label>
+            <div class="with-unit">
+              <input type="number" id="foodDays" name="foodDays" inputmode="numeric" min="0" max="999" step="1">
+              <span>วัน</span>
+            </div>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="waterLevel">
+            <div class="label">ระดับน้ำปัจจุบัน <span class="req">*</span></div>
+            <div class="choices" data-options="waterLevel"></div>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="commute">
+            <div class="label">การเดินทางเพื่อมาทำงาน <span class="req">*</span></div>
+            <div class="choices" data-options="commute"></div>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="phone">
+            <label for="phone">เบอร์โทรติดต่อ <span class="req">*</span></label>
+            <input type="tel" id="phone" name="phone" inputmode="tel" autocomplete="tel" placeholder="เช่น 0812345678" maxlength="20">
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="helpLevel">
+            <div class="label">ระดับความต้องการความช่วยเหลือ <span class="req">*</span></div>
+            <div class="choices" data-options="helpLevel"></div>
+            <div class="error-msg"></div>
+          </div>
+
+          <div class="field" data-field="note">
+            <label for="note">ข้อมูลเพิ่มเติม <span class="hint">(ไม่บังคับ เช่น มีผู้สูงอายุ เด็ก ผู้ป่วย หรือสัตว์เลี้ยง)</span></label>
+            <textarea id="note" name="note" maxlength="1000"></textarea>
+          </div>
+
+          <div class="submit-row">
+            <button class="btn" type="submit" id="submitBtn">ส่งข้อมูล</button>
+            <div class="error-msg" id="formError" style="text-align:center"></div>
+          </div>
+        </form>
+      </div>
+
+      <div id="successView" class="success hidden">
+        <div class="icon">✓</div>
+        <h2 id="successTitle">ส่งข้อมูลเรียบร้อยแล้ว</h2>
+        <p>ขอบคุณครับ/ค่ะ ทีมงานจะติดต่อกลับตามเบอร์โทรที่แจ้งไว้<br>หากสถานการณ์เปลี่ยนแปลง สามารถกรอกใหม่ด้วยเบอร์โทรเดิมเพื่ออัปเดตข้อมูล</p>
+        <button class="btn secondary" type="button" id="againBtn">กรอกข้อมูลอีกครั้ง</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="options.js"></script>
+  <script>
+    const form = document.getElementById('surveyForm');
+
+    // สร้างตัวเลือกแบบ radio จาก options.js
+    document.querySelectorAll('[data-options]').forEach((box) => {
+      const name = box.dataset.options;
+      box.innerHTML = OPTIONS[name].map((o) =>
+        `<label class="choice"><input type="radio" name="${name}" value="${o.value}"><span>${o.label}</span></label>`
+      ).join('');
+    });
+
+    const floorField = document.getElementById('floorField');
+    form.addEventListener('change', (e) => {
+      if (e.target.name === 'housingType') floorField.classList.toggle('hidden', e.target.value !== 'condo');
+      const f = e.target.closest('.field');
+      if (f) f.classList.remove('invalid');
+    });
+    form.addEventListener('input', (e) => {
+      const f = e.target.closest('.field');
+      if (f) f.classList.remove('invalid');
+    });
+
+    function showErrors(errors) {
+      let first = null;
+      for (const [k, msg] of Object.entries(errors)) {
+        const f = form.querySelector(`[data-field="${k}"]`);
+        if (!f) continue;
+        f.classList.add('invalid');
+        f.querySelector('.error-msg').textContent = msg;
+        first = first || f;
+      }
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      form.querySelectorAll('.field.invalid').forEach((f) => f.classList.remove('invalid'));
+      const formError = document.getElementById('formError');
+      formError.style.display = 'none';
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'กำลังส่ง...';
+      try {
+        const data = Object.fromEntries(new FormData(form));
+        const res = await fetch('/api/responses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (res.ok && json.ok) {
+          document.getElementById('successTitle').textContent = json.updated
+            ? 'อัปเดตข้อมูลเรียบร้อยแล้ว' : 'ส่งข้อมูลเรียบร้อยแล้ว';
+          document.getElementById('formView').classList.add('hidden');
+          document.getElementById('successView').classList.remove('hidden');
+          window.scrollTo({ top: 0 });
+        } else if (json.errors) {
+          showErrors(json.errors);
+        } else {
+          throw new Error(json.message || 'ส่งข้อมูลไม่สำเร็จ');
+        }
+      } catch (err) {
+        formError.textContent = 'ส่งข้อมูลไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ตแล้วลองใหม่อีกครั้ง';
+        formError.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'ส่งข้อมูล';
+      }
+    });
+
+    document.getElementById('againBtn').addEventListener('click', () => {
+      form.reset();
+      floorField.classList.add('hidden');
+      document.getElementById('successView').classList.add('hidden');
+      document.getElementById('formView').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
